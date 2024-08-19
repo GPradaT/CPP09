@@ -2,6 +2,7 @@
 # define BITCOINEXCHANGE_HPP
 
 # include <iostream>
+# include <cstdlib>
 # include <cstring>
 # include <string>
 # include <map>
@@ -33,14 +34,14 @@ class	BitcoinExchange
 
 		static bool			valid_date(std::string &date);
 		static bool			valid_value(T &value);
-		static void			fill_map(std::map<std::string, T>);
+		static void			fill_map();
 
-/*		class	InvalidDate : public std::exception {
+		class	InvalidDate : public std::exception {
 			public:
 				const char *what() const throw() {
-					return std::strcat("Error: bad input => ", date->c_str());
+					return "Error: bad input => ";
 				}
-		};*/
+		};
 };
 
 #include "BitcoinExchange.tpp"
