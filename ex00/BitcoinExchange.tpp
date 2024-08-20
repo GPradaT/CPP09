@@ -1,6 +1,13 @@
 #include "BitcoinExchange.hpp"
 
-BitcoinExchange::BitcoinExchange() : _csvData(), _inputFile(){}
+template<typename T>
+BitcoinExchange<T>::BitcoinExchange() : _csvData(), _inputFile(){}
+
+template<typename T>
+BitcoinExchange<T>::~BitcoinExchange() {}
+
+template<typename T>
+BitcoinExchange<T>::BitcoinExchange(const BitcoinExchange &src) {(void)src;}
 
 template<typename T>
 bool		BitcoinExchange<T>::valid_value(T &value)
@@ -25,18 +32,27 @@ bool		BitcoinExchange<T>::valid_date(std::string &date)
 	}
 	try
 	{
-		dates[0] = std::atoi(date.substr(0, 4).c_str());
-		dates[1] = std::atoi(date.substr(5, 7).c_str());
+		if ((dates[0] = std::atoi(date.substr(0, 4).c_str())) < 2009 || dates[0] > 2024)
+			throw InvalidDate();
+		if ((dates[1] = std::atoi(date.substr(5, 7).c_str())) < 1 || dates[1] > 12)
+			throw InvalidDate();
 		dates[2] = std::atoi(date.substr(8, 10).c_str());
+		int daysInMont[] = {31, (((dates[0] % 4 == 0 && dates[0] % 100 != 0) || dates[0] % 400 == 0) ? 29 : 28), 31, 30, 31, };
+		if (dates[2] < 1 || daysInMonth[dates[2] - 1]) 
+			throw InvalidDate();
+		std::cout << "Value date[0]-> " << dates[0] << std::endl;
+		std::cout << "Value date[1]-> " << dates[1] << std::endl;
+		std::cout << "Value date[2]-> " << dates[2] << std::endl;
 	} catch (std::exception &e) {
-		std::cout << e.what() << std::endl;
+		std::cout << e.what() << date << std::endl;
 		return false;
 	}
 	return true;
 }
-
+/*
 template<typename T>
 void		fill_map()
 {
 
 }
+*/
