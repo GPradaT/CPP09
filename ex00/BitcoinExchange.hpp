@@ -4,6 +4,7 @@
 # include <iostream>
 # include <cstdlib>
 # include <cstring>
+# include <ctime>
 # include <string>
 # include <map>
 
@@ -36,7 +37,7 @@ class	BitcoinExchange
 
 		static bool			valid_date(std::string &date);
 		static bool			valid_value(T &value);
-
+//		static void			parse_file(const char *path);
 		class	InvalidDate : public std::exception {
 			public:
 				const char *what() const throw() {

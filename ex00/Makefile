@@ -1,6 +1,6 @@
 NAME=		btc
-CMD=		c++ -std=c++98 -Wall -Wextra -Werror -fsanitize=address -MMD -MP -IBitcoinExchange.hpp
-SRC=		BitcoinExchange.cpp main.cpp
+CMD=		c++ -std=c++98 -Wall -Wextra -Werror -fsanitize=address -MMD -MP
+SRC=		main.cpp
 OBJ=		$(SRC:.cpp=.o)
 DEP=		$(SRC:.cpp=.d)
 
