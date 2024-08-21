@@ -22,6 +22,16 @@ struct	is_same
 	static const bool value = true;
 };
 */
+
+class	InvalidDate : public std::exception
+{
+	public:
+		const char *what() const throw()
+		{
+			return "Error: bad input => ";
+		}
+};
+
 template<typename T>
 class	BitcoinExchange
 {
@@ -30,20 +40,13 @@ class	BitcoinExchange
 		~BitcoinExchange();
 		BitcoinExchange(const BitcoinExchange &src);
 //		typedef char	valid[is_same<T, int>::value || is_same<T, float>::value ? 1 : -1];
-		std::map<std::string, T>	_csvData;
-		std::map<std::string, T>	_inputFile;
+		std::map<std::time_t, T>	_csvData;
 	
 	public:
 
 		static bool			valid_date(std::string &date);
 		static bool			valid_value(T &value);
-//		static void			parse_file(const char *path);
-		class	InvalidDate : public std::exception {
-			public:
-				const char *what() const throw() {
-					return "Error: bad input => ";
-				}
-		};
+		static void			parse_file(const char *path);
 };
 
 #include "BitcoinExchange.tpp"
