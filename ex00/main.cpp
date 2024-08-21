@@ -5,6 +5,7 @@ int	main()
 	BitcoinExchange<float>	exchange;
 	try{
 	exchange.setCsvData();
+	exchange.printCsv();
 	} catch (std::exception &e){
 		std::cout << e.what() << std::endl;
 	}

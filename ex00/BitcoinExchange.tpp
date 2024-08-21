@@ -63,20 +63,30 @@ void		BitcoinExchange<T>::setCsvData()
 {
 	std::ifstream	csv("data.csv");
 	std::string line;
-	std::getline(csv, line);
-	if (!csv)
+	if (!csv.is_open())
 		throw FileError();
+	std::getline(csv, line);
 	for (;std::getline(csv,line);)
 	{
 		std::string	Date;
 		T		Value;
 		Date = line.substr(0, line.find(','));
-		std::cout << line.substr(line.find(',') + 1, line.length()).c_str() << std::endl;
+//		std::cout << line.substr(line.find(',') + 1, line.length()).c_str() << std::endl;
 		Value = std::strtod(line.substr(line.find(',') + 1, line.length()).c_str(), NULL);
-		std::cout << "SUUUU --> " << Date << std::endl;
-		std::cout << "SUUUU --> " << Value << std::endl;
-		_csvData[validDate(Date)] = validValue(Value);
+	/*	std::cout << "SUUUU --> " << Date << std::endl;
+		std::cout << std::setprecision(2) << "SUUUU --> " << Value << std::endl;
+		std::cout << std::fixed;*/
+		_csvData.insert(std::make_pair<std::time_t, T>(validDate(Date), validValue(Value)));
+//		_csvData[validDate(Date)] = validValue(Value);
 	}
+}
+
+template<typename T>
+void		BitcoinExchange<T>::printCsv()
+{
+	for (typename std::map<std::time_t, T>::const_iterator it = _csvData.begin(); it != _csvData.end(); ++it)
+		std::cout << "time-> " << it->first << " value -> " << it->second << std::endl;
+
 }
 
 /*

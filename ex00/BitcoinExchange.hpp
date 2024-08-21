@@ -2,6 +2,7 @@
 # define BITCOINEXCHANGE_HPP
 
 # include <iostream>
+# include <iomanip>
 # include <fstream>
 # include <cstdlib>
 # include <cstring>
@@ -56,6 +57,7 @@ class	BitcoinExchange
 		static std::time_t		validDate(std::string &date);
 		static bool			validValue(T &value);
 		void				setCsvData();
+		void				printCsv();
 };
 
 #include "BitcoinExchange.tpp"
