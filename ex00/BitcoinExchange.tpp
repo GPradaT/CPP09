@@ -23,9 +23,9 @@ template<typename T>
 BitcoinExchange<T>::BitcoinExchange(const BitcoinExchange &src) {(void)src;}
 
 template<typename T>
-bool		BitcoinExchange<T>::validValue(T &value)
+T		BitcoinExchange<T>::validValue(T &value)
 {
-	return value >= 0 && value <= 1000;
+	return (value >= 0 && value <= 1000) ? value : -1;
 }
 
 template<typename T>
@@ -71,13 +71,8 @@ void		BitcoinExchange<T>::setCsvData()
 		std::string	Date;
 		T		Value;
 		Date = line.substr(0, line.find(','));
-//		std::cout << line.substr(line.find(',') + 1, line.length()).c_str() << std::endl;
 		Value = std::strtod(line.substr(line.find(',') + 1, line.length()).c_str(), NULL);
-	/*	std::cout << "SUUUU --> " << Date << std::endl;
-		std::cout << std::setprecision(2) << "SUUUU --> " << Value << std::endl;
-		std::cout << std::fixed;*/
-		_csvData.insert(std::make_pair<std::time_t, T>(validDate(Date), validValue(Value)));
-//		_csvData[validDate(Date)] = validValue(Value);
+		_csvData[validDate(Date)] = Value;
 	}
 }
 

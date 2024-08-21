@@ -55,7 +55,7 @@ class	BitcoinExchange
 		~BitcoinExchange();
 		BitcoinExchange(const BitcoinExchange &src);
 		static std::time_t		validDate(std::string &date);
-		static bool			validValue(T &value);
+		static T			validValue(T &value);
 		void				setCsvData();
 		void				printCsv();
 };
