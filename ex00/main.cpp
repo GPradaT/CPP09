@@ -2,7 +2,13 @@
 
 int	main()
 {
-	{
+	BitcoinExchange<float>	exchange;
+	try{
+	exchange.setCsvData();
+	} catch (std::exception &e){
+		std::cout << e.what() << std::endl;
+	}
+	/*{
 		std::cout << "\033[091mMAIN-----------1" << std::endl;
 		std::string	date = "2024-12-31";
 		std::string	date1 = "2012-02-30";
@@ -11,16 +17,16 @@ int	main()
 		try {
 			std::cout << "=====DATE======" << std::endl;
 			std::cout << date << std::endl;
-			BitcoinExchange<int>::valid_date(date);
+			BitcoinExchange<int>::validDate(date);
 			std::cout << "=====DATE1=====" << std::endl;
 			std::cout << date1 << std::endl;
-			BitcoinExchange<float>::valid_date(date1);
+			BitcoinExchange<float>::validDate(date1);
 			std::cout << "=====DATE2=====" << std::endl;
 			std::cout << date2 << std::endl;
-			BitcoinExchange<float>::valid_date(date2);
+			BitcoinExchange<float>::validDate(date2);
 			std::cout << "=====DATE3=====" << std::endl;
 			std::cout << date3 << std::endl;
-			BitcoinExchange<int>::valid_date(date3);
+			BitcoinExchange<int>::validDate(date3);
 		} catch (std::exception &e) {
 			std::cout << e.what() << std::endl;
 		}
@@ -34,19 +40,19 @@ int	main()
 		try {
 			std::cout << "=====DATE======" << std::endl;
 			std::cout << date << std::endl;
-			BitcoinExchange<int>::valid_date(date);
+			BitcoinExchange<int>::validDate(date);
 			std::cout << "=====DATE1=====" << std::endl;
 			std::cout << date1 << std::endl;
-			BitcoinExchange<float>::valid_date(date1);
+			BitcoinExchange<float>::validDate(date1);
 			std::cout << "=====DATE2=====" << std::endl;
 			std::cout << date2 << std::endl;
-			BitcoinExchange<float>::valid_date(date2);
+			BitcoinExchange<float>::validDate(date2);
 			std::cout << "=====DATE3=====" << std::endl;
 			std::cout << date3 << std::endl;
-			BitcoinExchange<int>::valid_date(date3);
+			BitcoinExchange<int>::validDate(date3);
 		} catch (std::exception &e) {
 			std::cout << e.what() << std::endl;
 		}
-	}
+	}*/
 	return 0;
 }

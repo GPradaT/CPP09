@@ -4,7 +4,7 @@ template class BitcoinExchange<int>;
 template class BitcoinExchange<float>;
 */
 
-static bool	invalid_params(int dates[3])
+bool	invalid_params(int dates[3])
 {
 		int daysInMonth[] = {31, (((dates[0] % 4 == 0 && dates[0] % 100 != 0) 
 					|| dates[0] % 400 == 0) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
@@ -14,7 +14,7 @@ static bool	invalid_params(int dates[3])
 }
 
 template<typename T>
-BitcoinExchange<T>::BitcoinExchange() : _csvData(), _inputFile(){}
+BitcoinExchange<T>::BitcoinExchange() : _csvData(){}
 
 template<typename T>
 BitcoinExchange<T>::~BitcoinExchange() {}
@@ -23,13 +23,13 @@ template<typename T>
 BitcoinExchange<T>::BitcoinExchange(const BitcoinExchange &src) {(void)src;}
 
 template<typename T>
-bool		BitcoinExchange<T>::valid_value(T &value)
+bool		BitcoinExchange<T>::validValue(T &value)
 {
 	return value >= 0 && value <= 1000;
 }
 
 template<typename T>
-std::time_t	BitcoinExchange<T>::valid_date(std::string &date)
+std::time_t	BitcoinExchange<T>::validDate(std::string &date)
 {
 	int		dates[3];
 	std::tm		time = {};
@@ -50,7 +50,7 @@ std::time_t	BitcoinExchange<T>::valid_date(std::string &date)
 		time.tm_mon = std::atoi(date.substr(5, 7).c_str()) - 1;
 		time.tm_mday = std::atoi(date.substr(8, 10).c_str()) - 1;
 		FinalDate = std::mktime(&time);
-		if (fecha_real > std::time(0) || fecha_real == -1)
+		if (FinalDate > std::time(0) || FinalDate == -1)
 			throw InvalidDate();	
 	} catch (std::exception &e) {
 		std::cout << e.what() << date << std::endl;
@@ -59,9 +59,24 @@ std::time_t	BitcoinExchange<T>::valid_date(std::string &date)
 }
 
 template<typename T>
-void		BitcoinExchange<T>::parse_file(const char *path)
+void		BitcoinExchange<T>::setCsvData()
 {
-
+	std::ifstream	csv("data.csv");
+	std::string line;
+	std::getline(csv, line);
+	if (!csv)
+		throw FileError();
+	for (;std::getline(csv,line);)
+	{
+		std::string	Date;
+		T		Value;
+		Date = line.substr(0, line.find(','));
+		std::cout << line.substr(line.find(',') + 1, line.length()).c_str() << std::endl;
+		Value = std::strtod(line.substr(line.find(',') + 1, line.length()).c_str(), NULL);
+		std::cout << "SUUUU --> " << Date << std::endl;
+		std::cout << "SUUUU --> " << Value << std::endl;
+		_csvData[validDate(Date)] = validValue(Value);
+	}
 }
 
 /*

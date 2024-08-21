@@ -2,6 +2,7 @@
 # define BITCOINEXCHANGE_HPP
 
 # include <iostream>
+# include <fstream>
 # include <cstdlib>
 # include <cstring>
 # include <ctime>
@@ -23,6 +24,15 @@ struct	is_same
 };
 */
 
+class	FileError : public std::exception
+{
+	public:
+		const char *what() const throw()
+		{
+			return "Error: File Opening";
+		}
+};
+
 class	InvalidDate : public std::exception
 {
 	public:
@@ -36,17 +46,16 @@ template<typename T>
 class	BitcoinExchange
 {
 	private:
-		BitcoinExchange();
-		~BitcoinExchange();
-		BitcoinExchange(const BitcoinExchange &src);
 //		typedef char	valid[is_same<T, int>::value || is_same<T, float>::value ? 1 : -1];
 		std::map<std::time_t, T>	_csvData;
 	
 	public:
-
-		static bool			valid_date(std::string &date);
-		static bool			valid_value(T &value);
-		static void			parse_file(const char *path);
+		BitcoinExchange();
+		~BitcoinExchange();
+		BitcoinExchange(const BitcoinExchange &src);
+		static std::time_t		validDate(std::string &date);
+		static bool			validValue(T &value);
+		void				setCsvData();
 };
 
 #include "BitcoinExchange.tpp"
