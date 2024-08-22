@@ -61,10 +61,15 @@ class	InvalidDate : public std::exception
 };
 
 template<typename T>
+void	debug(std::string data, T &str)
+{
+	std::cout << data << str << std::endl;
+}
+
+template<typename T>
 class	BitcoinExchange
 {
 	private:
-//		typedef char	valid[is_same<T, int>::value || is_same<T, float>::value ? 1 : -1];
 		std::map<std::time_t, T>	_csvData;
 	
 	public:

@@ -38,23 +38,24 @@ std::time_t	BitcoinExchange<T>::validDate(std::string &date)
 	std::tm		time = {};
 	std::time_t	FinalDate;
 
-	if (date.length() != 10)
-		throw InvalidDate();
-	if (date[4] != '-' || date[7] != '-')
-		throw InvalidDate();
+	if (date.length() != 10 && date.length() != 11){
+		std::cout << date.length();
+		std::cout << " A" << std::endl;throw InvalidDate();}
+	if (date[4] != '-' || date[7] != '-'){
+		std::cout << "B" << std::endl;throw InvalidDate();}
 	try
 	{
 		dates[0] = std::atoi(date.substr(0, 4).c_str());
 		dates[1] = std::atoi(date.substr(5, 7).c_str());
 		dates[2] = std::atoi(date.substr(8, 10).c_str());
-		if (!invalid_params(dates))
-			throw InvalidDate();
+		if (!invalid_params(dates)){std::cout << "C" << std::endl;
+			throw InvalidDate();}
 		time.tm_year = std::atoi(date.substr(0, 4).c_str()) - 1900;
 		time.tm_mon = std::atoi(date.substr(5, 7).c_str()) - 1;
 		time.tm_mday = std::atoi(date.substr(8, 10).c_str()) - 1;
 		FinalDate = std::mktime(&time);
 		if (FinalDate > std::time(0) || FinalDate == -1)
-			throw InvalidDate();	
+			{std::cout << "D" << std::endl;throw InvalidDate();}
 	} catch (std::exception &e) {
 		std::cout << e.what() << date << std::endl;
 	}
@@ -92,12 +93,15 @@ void		BitcoinExchange<T>::compareInput(const char *path)
 	{
 		std::string toCheck = line.substr(0, line.find("|") ? line.find("|") : line.length());
 		try {
-			std::time_t Date = validDate(toCheck);
 			std::cout << "Valid date-> " << toCheck << std::endl;
-			typename std::map<time_t, T>::iterator it = _csvData.lower_bound(Date);
-			if (it == _csvData.end() || it->first != Date)
-				--it;
-			std::cout << "Nearly Value-> " << it->second << std::endl;
+			std::time_t Date = validDate(toCheck);
+			std::cout << std::fixed;
+			T Multiplicator = strtod(line.substr(line.find("|") + 1).c_str(), NULL);
+			debug("Mltplctor  ->", Multiplicator);
+			T ValidValue = validValue(Multiplicator);
+			debug("ValidValue -> ", ValidValue);
+			T value = _csvData[Date] * ValidValue;
+			debug("final result -> ", value);
 		} catch (std::exception &e) {
 			std::cout << e.what() + toCheck << std::endl;
 		}
