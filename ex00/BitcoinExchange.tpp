@@ -95,12 +95,14 @@ void		BitcoinExchange<T>::compareInput(const char *path)
 		try {
 			std::cout << "Valid date-> " << toCheck << std::endl;
 			std::time_t Date = validDate(toCheck);
+			typename std::map<time_t, T>::iterator it = _csvData.lower_bound(Date);
+			std::cout << it->second << std::endl;
 			std::cout << std::fixed;
 			T Multiplicator = strtod(line.substr(line.find("|") + 1).c_str(), NULL);
 			debug("Mltplctor  ->", Multiplicator);
 			T ValidValue = validValue(Multiplicator);
 			debug("ValidValue -> ", ValidValue);
-			T value = _csvData[Date] * ValidValue;
+			T value = it->second * ValidValue;
 			debug("final result -> ", value);
 		} catch (std::exception &e) {
 			std::cout << e.what() + toCheck << std::endl;
