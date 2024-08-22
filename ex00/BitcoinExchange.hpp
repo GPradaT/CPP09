@@ -10,7 +10,6 @@
 # include <string>
 # include <map>
 
-# define BTC_FIRST_DATE "2009-01-03"
 /*
 template<typename T, typename U>
 struct	is_same
@@ -25,12 +24,30 @@ struct	is_same
 };
 */
 
+class	NotPositive : public std::exception
+{
+	public:
+		const char *what() const throw()
+		{
+			return "Error: not a positive number.";
+	}
+};
+
+class	TooLarge : public std::exception
+{
+	public:
+		const char *what() const throw()
+		{
+			return "Error: too large a number.";
+	}
+};
+
 class	FileError : public std::exception
 {
 	public:
 		const char *what() const throw()
 		{
-			return "Error: File Opening";
+			return "Error: could not open file.";
 		}
 };
 
@@ -58,6 +75,7 @@ class	BitcoinExchange
 		static T			validValue(T &value);
 		void				setCsvData();
 		void				printCsv();
+		void				compareInput(const char *path);
 };
 
 #include "BitcoinExchange.tpp"

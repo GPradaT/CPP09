@@ -25,7 +25,10 @@ BitcoinExchange<T>::BitcoinExchange(const BitcoinExchange &src) {(void)src;}
 template<typename T>
 T		BitcoinExchange<T>::validValue(T &value)
 {
-	return (value >= 0 && value <= 1000) ? value : -1;
+	value < 0 ? throw NotPositive() : 0;
+	value > 1000 ? throw TooLarge() : 0;
+	return value;
+	//return (value >= 0 && value <= 1000) ? value : -1;
 }
 
 template<typename T>
@@ -73,6 +76,36 @@ void		BitcoinExchange<T>::setCsvData()
 		Date = line.substr(0, line.find(','));
 		Value = std::strtod(line.substr(line.find(',') + 1, line.length()).c_str(), NULL);
 		_csvData[validDate(Date)] = Value;
+	}
+}
+
+template<typename T>
+void		BitcoinExchange<T>::compareInput(const char *path)
+{
+	std::ifstream	input(path);
+
+	if (!input.is_open())
+		throw FileError();
+	std::string	line;
+	std::getline(input, line);
+	for(;std::getline(input, line);)
+	{
+		std::string toCheck = line.substr(0, line.find("|") ? line.find("|") : line.length());
+		try {
+			std::time_t Date = validDate(toCheck);
+			std::cout << "Valid date-> " << toCheck << std::endl;
+			typename std::map<time_t, T>::iterator it = _csvData.lower_bound(Date);
+			if (it == _csvData.end() || it->first != Date)
+				--it;
+			std::cout << "Nearly Value-> " << it->second << std::endl;
+		} catch (std::exception &e) {
+			std::cout << e.what() + toCheck << std::endl;
+		}
+//		std::cout << 
+/*		try {
+		} catch (std::exception &e) {
+			std::cout << e.what() << std::endl;
+		}*/
 	}
 }
 
