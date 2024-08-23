@@ -38,26 +38,26 @@ std::time_t	BitcoinExchange<T>::validDate(std::string &date)
 	std::tm		time = {};
 	std::time_t	FinalDate;
 
-	if (date.length() != 10 /*&& date.length() != 11*/)
+	if (date.length() != 10 && date.length() != 11)
 		throw InvalidDate();
 	if (date[4] != '-' || date[7] != '-')
 		throw InvalidDate();
-	try
-	{
-		dates[0] = std::atoi(date.substr(0, 4).c_str());
-		dates[1] = std::atoi(date.substr(5, 7).c_str());
-		dates[2] = std::atoi(date.substr(8, 10).c_str());
-		if (!invalid_params(dates)){
-			throw InvalidDate();}
-		time.tm_year = std::atoi(date.substr(0, 4).c_str()) - 1900;
-		time.tm_mon = std::atoi(date.substr(5, 7).c_str()) - 1;
-		time.tm_mday = std::atoi(date.substr(8, 10).c_str()) - 1;
-		FinalDate = std::mktime(&time);
-		if (FinalDate > std::time(0) || FinalDate == -1)
-			{std::cout << "D" << std::endl;throw InvalidDate();}
-	} catch (std::exception &e) {
-		std::cout << e.what() << date << std::endl;
-	}
+//	try
+//	{
+	dates[0] = std::atoi(date.substr(0, 4).c_str());
+	dates[1] = std::atoi(date.substr(5, 7).c_str());
+	dates[2] = std::atoi(date.substr(8, 10).c_str());
+	if (!invalid_params(dates)){
+		throw InvalidDate();}
+	time.tm_year = std::atoi(date.substr(0, 4).c_str()) - 1900;
+	time.tm_mon = std::atoi(date.substr(5, 7).c_str()) - 1;
+	time.tm_mday = std::atoi(date.substr(8, 10).c_str()) - 1;
+	FinalDate = std::mktime(&time);
+	if (FinalDate > std::time(0) || FinalDate == -1)
+		{std::cout << "D" << std::endl;throw InvalidDate();}
+//	} catch (std::exception &e) {
+//		std::cout << e.what() << date << std::endl;
+//	}
 	return FinalDate;
 }
 
@@ -90,19 +90,24 @@ void		BitcoinExchange<T>::compareInput(const char *path)
 	std::getline(input, line);
 	for(;std::getline(input, line);)
 	{
-		std::string toCheck = line.substr(0, line.find("|") ? line.find("|") - 1 : line.length());
+		if (line.empty())
+			continue;
+		size_t pos = line.find("|");
+		if (pos > 10000)
+		{
+			std::cout << "Error: bad input => " << line << std::endl;
+			continue;
+		}
 		try {
+			std::string toCheck = line.substr(0, pos);
 			std::time_t Date = validDate(toCheck);
 			typename std::map<time_t, T>::iterator it = _csvData.lower_bound(Date);
 			if (it->first != Date && it != _csvData.begin())
 				it--;
-			T Multiplicator = strtod(line.substr(line.find("|") + 1).c_str(), NULL);
+			T Multiplicator = strtod(line.substr(pos  + 1).c_str(), NULL);
 			T ValidValue = validValue(Multiplicator);
 			T value = it->second * ValidValue;
 			std::cout << toCheck << " => " << ValidValue << " = " << value << std::endl;
-		} catch (InvalidDate &e) {
-			std::cout << e.what() + toCheck << std::endl;
-			continue ;
 		} catch (std::exception &e) {
 			std::cout << e.what() << std::endl;
 		}
