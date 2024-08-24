@@ -13,5 +13,16 @@ int	main(int argc, char **argv)
 	} catch (std::exception &e) {
 		std::cout << e.what() << std::endl;
 	}
+
+	try {
+		std::stack<int>	s;
+		s.push(4);
+		s.pop();
+		if (!(s.top()))
+			std::cout << "mierda" << std::endl;
+
+	}catch (...) {
+		std::cout << "LLEGO" << std::endl;
+	}
 	return 0;
 }

@@ -12,7 +12,7 @@ class	RPN
 		void	operator=(const RPN &src);
 
 		std::stack<int>	operands;
-//		int		result;
+		int		result;
 
 	public:
 		RPN();
