@@ -33,3 +33,20 @@ void	RPN::solve(const std::string &input)
 
 
 }
+
+/*
+ * la intencion de solucion que tengo es algo parecido a esto:
+ *
+ * try {
+ * 	if (isnum(token))
+ * 		stack.push(atoi(token))
+ *	if (is_operand(token))
+ *		operand2 = stack.top();
+ *		operand1 = stack.top();
+ *		result = calculator(operand1, operator, operand2);
+ *		stack.push(result);
+ *} catch (elerror) {
+ 	printar error etc;
+ }
+ *
+ * */
