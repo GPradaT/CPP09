@@ -10,6 +10,7 @@ int	main(int argc, char **argv)
 		std::string input = argv[1];
 		stack.validInput(input);
 		stack.solve(input);
+		std::cout << "Tu resultado essss......   " << stack.getResult() << std::endl;
 	} catch (std::exception &e) {
 		std::cout << e.what() << std::endl;
 	}

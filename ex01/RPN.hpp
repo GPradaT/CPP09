@@ -3,6 +3,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <cstdlib>
 #include <stack>
 
 class	RPN
@@ -20,4 +21,6 @@ class	RPN
 		bool		isOperator(char c) const;
 		void		validInput(const std::string &input);
 		void		solve(const std::string &input);
+		int		calculator(int a, char c, int b);
+		int		getResult() const;
 };

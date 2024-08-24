@@ -8,6 +8,11 @@ RPN::RPN(const RPN &src) {(void)src;}
 
 void	RPN::operator=(const RPN &src) {(void)src;}
 
+int	RPN::getResult() const
+{
+	return result;
+}
+
 bool	RPN::isOperator(char c) const
 {
 	return (c == '+' || c == '-' || c == '*' || c == '/');
@@ -32,7 +37,6 @@ void	RPN::solve(const std::string &input)
 	{
 		if (token.length() > 1)
 			throw std::logic_error("Error: Too long parameter.");
-		int a, b;
 		if (std::isdigit(token[0]))
 			operands.push(std::atoi(token.c_str()));
 		else if (isOperator(token[0]))
@@ -48,10 +52,22 @@ void	RPN::solve(const std::string &input)
 			result = calculator(operand1, token[0], operand2);
 			operands.push(result);
 		}
-
-		std::cout << "Token:	    "  << token << std::endl;
-		std::cout << "Token length: " << token.length() << std::endl;
 	}
+}
+
+int	RPN::calculator(int a, char c, int b)
+{
+	switch (c) {
+		case '+':
+			return a + b;
+		case '-':
+			return a - b;
+		case '*':
+			return a * b;
+		case '/':
+			return a / b;
+	}
+	return 0;
 }
 
 /*
