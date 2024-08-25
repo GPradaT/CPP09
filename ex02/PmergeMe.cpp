@@ -87,7 +87,11 @@ void	PmergeMe::solve(int argc, char **argv)
 		}
 		for (unsigned int i = 0; i < SortedVector.size(); ++i)
 			std::cout << "Unsorted -> " << SortedVector[i] << std::endl;
+		struct timeval start, end;
+		gettimeofday(&start, NULL);
 		FordJohnsonSort(SortedVector);
+		gettimeofday(&end, NULL);
+		std::cout << "Time to process a range of "<< SortedVector.size() << " elements with std::vector<int>: " << end.tv_usec - start.tv_usec << " us." << std::endl;
 		for (unsigned int i = 0; i < SortedVector.size(); ++i)
 			std::cout << "Sorted -> " << SortedVector[i] << std::endl;
 	} catch (std::exception &e) {

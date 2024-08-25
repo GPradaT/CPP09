@@ -2,6 +2,7 @@
 
 #include <cstdlib>
 #include <climits>
+#include <sys/time.h>
 #include <iostream>
 #include <sstream>
 #include <vector>
