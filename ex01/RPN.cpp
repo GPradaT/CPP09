@@ -42,11 +42,11 @@ void	RPN::solve(const std::string &input)
 		else if (isOperator(token[0]))
 		{
 			if (operands.empty())
-				throw std::logic_error("Error: empty stack");
+				throw std::logic_error("Error: Empty stack");
 			int operand2 = operands.top();
 			operands.pop();
 			if (operands.empty())
-				throw std::logic_error("Error: empty stack");
+				throw std::logic_error("Error: Too much operators.");
 			int operand1 = operands.top();
 			operands.pop();
 			result = calculator(operand1, token[0], operand2);
@@ -57,7 +57,8 @@ void	RPN::solve(const std::string &input)
 
 int	RPN::calculator(int a, char c, int b)
 {
-	switch (c) {
+	switch (c)
+	{
 		case '+':
 			return a + b;
 		case '-':
@@ -70,20 +71,10 @@ int	RPN::calculator(int a, char c, int b)
 	return 0;
 }
 
-/*
- * la intencion de solucion que tengo es algo parecido a esto:
- *
- * mirar acerca de reference top() para comprobar que no de segfault
- * try {
- * 	if (isnum(token))
- * 		stack.push(atoi(token))
- *	if (is_operand(token))
- *		operand2 = stack.top();
- *		operand1 = stack.top();
- *		result = calculator(operand1, operator, operand2);
- *		stack.push(result);
- *} catch (elerror) {
- 	printar error etc;
- }
- *
- * */
+void	RPN::checkEnd()
+{
+	operands.pop();
+	if (!operands.empty())
+		throw std::logic_error("Error: Too few operators.");
+	std::cout << "Result: [ " << getResult() << " ]" << std::endl;
+}
