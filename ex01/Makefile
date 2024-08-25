@@ -7,7 +7,7 @@ DEP=		$(SRC:.cpp=.d)
 $(NAME):	 $(OBJ)
 	$(CMD) $(OBJ) -o $(NAME)
 
-%.o:		%.cpp
+%.o:		%.cpp %.hpp Makefile
 	$(CMD) -c $< -o $@
 
 all:		$(NAME)
