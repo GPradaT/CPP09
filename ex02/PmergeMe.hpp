@@ -17,12 +17,15 @@ class	PmergeMe
 		void	operator=(const PmergeMe &src);
 		std::string		ValidInput;
 		std::vector<int>	SortedVector;
-	//	std::list<int>		SortedList;
+		std::list<int>		SortedList;
+		long			times[3];
 	public:
 		PmergeMe();
 		~PmergeMe();
 		void		checkInput(const std::string &input);
 		void		solve(int argc, char **argv);
 		void		FordJohnsonSort(std::vector<int> &vect);
-//		void		FordJohnsonSort(std::list<int> list);
+		void		FordJohnsonSort(std::list<int> &list);
+		void		printList() const;
+		void		printVect() const;
 };
