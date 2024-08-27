@@ -49,6 +49,8 @@ void	RPN::solve(const std::string &input)
 				throw std::logic_error("Error: Too much operators.");
 			int operand1 = operands.top();
 			operands.pop();
+			if (token == "/" && operand2 == 0)
+				throw std::logic_error("Error: divide by 0 not Accepted");
 			result = calculator(operand1, token[0], operand2);
 			operands.push(result);
 		}
