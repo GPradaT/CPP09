@@ -1,13 +1,13 @@
 NAME=		btc
 CMD=		c++ -std=c++98 -Wall -Wextra -Werror -fsanitize=address -MMD -MP
-SRC=		main.cpp
+SRC=		BitcoinExchange.cpp main.cpp
 OBJ=		$(SRC:.cpp=.o)
 DEP=		$(SRC:.cpp=.d)
 
 $(NAME):	 $(OBJ)
 	$(CMD) $(OBJ) -o $(NAME)
 
-%.o:	%.cpp %.tpp Makefile
+%.o:	%.cpp Makefile
 	$(CMD) -c $< -o $@
 
 all:		$(NAME)
