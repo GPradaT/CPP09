@@ -50,7 +50,7 @@ void	RPN::solve(const std::string &input)
 			int operand1 = operands.top();
 			operands.pop();
 			if (token == "/" && operand2 == 0)
-				throw std::logic_error("Error: divide by 0 not Accepted");
+				throw std::logic_error("Error: Doesn't make sense to divide by 0.");
 			result = calculator(operand1, token[0], operand2);
 			operands.push(result);
 		}
