@@ -38,7 +38,7 @@ class	FileError : public std::exception
 		}
 };
 
-class	InvalidDate : public std::exception
+class	BadInput : public std::exception
 {
 	public:
 		const char *what() const throw()

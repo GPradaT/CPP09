@@ -28,22 +28,21 @@ std::time_t	BitcoinExchange::validDate(std::string &date)
 	std::tm		time = {};
 	std::time_t	FinalDate;
 
-//	std::cout << "AQUI ESTA ENTRANDO ---> [ " << date << " ]" << std::endl;
 	if (date.length() != 10 && date.length() != 11)
-		throw InvalidDate();
+		throw BadInput();
 	if (date[4] != '-' || date[7] != '-')
-		throw InvalidDate();
+		throw BadInput();
 	dates[0] = std::atoi(date.substr(0, 4).c_str());
 	dates[1] = std::atoi(date.substr(5, 7).c_str());
 	dates[2] = std::atoi(date.substr(8, 10).c_str());
 	if (!invalid_params(dates))
-		throw InvalidDate();
+		throw BadInput();
 	time.tm_year = std::atoi(date.substr(0, 4).c_str()) - 1900;
 	time.tm_mon = std::atoi(date.substr(5, 7).c_str()) - 1;
 	time.tm_mday = std::atoi(date.substr(8, 10).c_str()) - 1;
 	FinalDate = std::mktime(&time);
 	if (FinalDate > std::time(0) || FinalDate == -1)
-		throw InvalidDate();
+		throw BadInput();
 	return FinalDate;
 }
 
@@ -74,22 +73,23 @@ void		BitcoinExchange::compareInput(const char *path)
 	std::getline(input, line);
 	for(;std::getline(input, line);)
 	{
-		std::cout << std::endl << std::endl;
 		if (line.empty())
 			continue ;
 		std::stringstream	tokens(line);
 		std::string		toDate;
+		std::string		numCheck;
 		float			toMult = 0;
 		char			pipe = 0;
+		char			*end;
 		try {
-			while (tokens >> toDate >> pipe >> toMult)
+			while (tokens >> toDate >> pipe >> numCheck)
 			{
-				std::cout << "Value -> " << toDate << std::endl;
-				std::cout << "Value -> " << pipe << std::endl;
-				std::cout << "Value -> " << toMult << std::endl;
+				toMult = std::strtod(numCheck.c_str(), &end);
+				if (std::strlen(end) > 0)
+					throw BadInput();
 			}
 			if ((!tokens.eof() && tokens.fail()) || pipe == 0)
-				throw InvalidDate();
+				throw BadInput();
 		} catch(std::exception &e) {
 			std::cout << e.what() << line << std::endl;
 			continue ;
@@ -107,23 +107,6 @@ void		BitcoinExchange::compareInput(const char *path)
 		}
 	}
 }
-		/*try{
-			while (tokens >> toDate >> pipe >> toMult)
-			{
-				std::cout << toMult << " << toMult " << std::endl;
-				std::cout << pipe << " << pipe" << std::endl;
-				std::cout << toDate << " << toDate" << std::endl;
-				validDate(toDate);
-			}
-
-			if (!tokens.eof())
-				throw InvalidDate();
-			std::cout << "LIINE ENDED" << std::endl;
-
-		} catch(std::exception &e) {
-			std::cout << e.what() << line << std::endl;
-			continue ;
-		}*/
 
 void		BitcoinExchange::printCsv()
 {

@@ -2,14 +2,15 @@
 
 int main(int argc, char *argv[])
 {
+	try {
 	if (argc == 2)
 	{
 		BitcoinExchange	btc1;
-	//	BitcoinExchange<float>	btc2;
 		btc1.setCsvData();
-//		btc1.printCsv();
 		btc1.compareInput(argv[1]);
-	//	btc2.compareInput(argv[1]);
+	}
+	} catch (FileError &e) {
+		std::cout << e.what() << std::endl;
 	}
 	return 0;
 }
